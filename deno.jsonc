@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "test": "deno test",
+    "fmt": "deno fmt --ignore=README.md,LICENSE"
+  }
+}
