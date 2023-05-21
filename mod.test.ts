@@ -7,6 +7,18 @@ const HTML_DATA = `
   <head>
     <title>テスト</title>
     <meta name="description" content="テスト">
+    <meta property="og:title" content="テスト">
+    <meta property="og:description" content="テスト">
+    <meta property="og:site_name" content="テスト">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com">
+    <meta property="og:image" content="https://example.com/example.png">
+    <meta name="twitter:title" content="テスト">
+    <meta name="twitter:description" content="テスト">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:image" content="https://example.com/example.png">
+    <meta name="twitter:site" content="@Twitter">
+    <link rel="shortcut icon" href="/favicon.ico">
   </head>
   <body>テスト</body>
 </html>
@@ -26,22 +38,22 @@ Deno.test("parsedMeta", async () => {
     const meta = await parsedMeta("https://example.com");
     assertEquals<MetaData>(meta, {
       description: "テスト",
-      favicon: null,
+      favicon: "/favicon.ico",
       open_graph: {
-        description: null,
-        image: null,
-        site_name: null,
-        title: null,
-        type: null,
-        url: null,
+        description: "テスト",
+        image: "https://example.com/example.png",
+        site_name: "テスト",
+        title: "テスト",
+        type: "website",
+        url: "https://example.com",
       },
       title: "テスト",
       twitter: {
-        card: null,
-        description: null,
-        image: null,
-        site: null,
-        title: null,
+        card: "summary",
+        description: "テスト",
+        image: "https://example.com/example.png",
+        site: "@Twitter",
+        title: "テスト",
       },
     });
   } finally {
