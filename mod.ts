@@ -1,6 +1,6 @@
 import {
   DOMParser,
-  Element,
+  type Element,
 } from "https://deno.land/x/deno_dom@v0.1.38/deno-dom-wasm.ts";
 
 type MetaDataType = string | null | undefined;
@@ -30,6 +30,10 @@ export interface MetaData {
  * Extract meta data in fetched HTML data
  * @param url URL
  * @returns parsed object
+ * @example
+ * import { parsedMeta } from "https://deno.land/x/ogp_parser/mod.ts"
+ * const result = parsedMeta("https://example.com"
+ * console.log(result.title) // -> "Example Domain"
  */
 export const parsedMeta = async (url: string): Promise<MetaData> => {
   const res = await fetch(url);
