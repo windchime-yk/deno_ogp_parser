@@ -1,4 +1,5 @@
 # deno_ogp_parser
+[![codecov](https://codecov.io/gh/rwl-dev/deno_ogp_parser/graph/badge.svg?token=3WI5ALOM33)](https://codecov.io/gh/rwl-dev/deno_ogp_parser)  
 OGP Parser for Deno
 
 ## Usage
