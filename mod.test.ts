@@ -161,6 +161,14 @@ Deno.test("parsedMeta", async (t) => {
   });
 
   await t.step("Error results", async (t) => {
+    await t.step("Can't parsed URL", async () => {
+      try {
+        const _meta = await parsedMeta("テスト");
+      } catch (error) {
+        assertIsError(error);
+        assertInstanceOf(error, Deno.errors.InvalidData);
+      }
+    });
     await t.step("Use allow origin list", async () => {
       try {
         const _meta = await parsedMeta("https://example.com/nested", {
@@ -169,6 +177,14 @@ Deno.test("parsedMeta", async (t) => {
       } catch (error) {
         assertIsError(error);
         assertInstanceOf(error, Deno.errors.InvalidData);
+      }
+    });
+    await t.step("Not found URL", async () => {
+      try {
+        const _meta = await parsedMeta("https://whyk.dev/not-found");
+      } catch (error) {
+        assertIsError(error);
+        assertInstanceOf(error, Deno.errors.NotFound);
       }
     });
   });

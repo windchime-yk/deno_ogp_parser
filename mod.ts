@@ -46,11 +46,21 @@ export const parsedMeta = async (
   url: string,
   options?: ParserOptions,
 ): Promise<MetaData> => {
+  if (!URL.canParse(url)) {
+    throw new Deno.errors.InvalidData(
+      "The entered URL cannot be parsed as a URL",
+    );
+  }
   if (
     options?.allowOrigins && !options.allowOrigins.includes(new URL(url).origin)
-  ) throw new Deno.errors.InvalidData();
+  ) throw new Deno.errors.InvalidData("Not a permitted origin");
 
   const res = await fetch(url);
+
+  if (!String(res.status).startsWith("2")) {
+    throw new Deno.errors.NotFound(`The URL entered was a ${res.status} error`);
+  }
+
   const bodyReader = await res.body?.getReader().read();
   const decoder = new TextDecoder();
   const body = new DOMParser().parseFromString(
