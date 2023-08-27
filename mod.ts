@@ -26,16 +26,30 @@ export interface MetaData {
   };
 }
 
+export interface ParserOptions {
+  allowOrigins?: Array<string>;
+}
+
 /**
  * Extract meta data in fetched HTML data
  * @param url URL
+ * @param options.allowOrigins allow origin list
  * @returns parsed object
  * @example
  * import { parsedMeta } from "https://deno.land/x/ogp_parser/mod.ts"
- * const result = parsedMeta("https://example.com"
+ * const result = parsedMeta("https://example.com", {
+ *   allowOrigins: ["https://example.com"],
+ * });
  * console.log(result.title) // -> "Example Domain"
  */
-export const parsedMeta = async (url: string): Promise<MetaData> => {
+export const parsedMeta = async (
+  url: string,
+  options?: ParserOptions,
+): Promise<MetaData> => {
+  if (
+    options?.allowOrigins && !options.allowOrigins.includes(new URL(url).origin)
+  ) throw new Deno.errors.InvalidData();
+
   const res = await fetch(url);
   const bodyReader = await res.body?.getReader().read();
   const decoder = new TextDecoder();
