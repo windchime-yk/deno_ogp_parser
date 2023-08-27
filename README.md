@@ -18,3 +18,6 @@ const result = parsedMeta("https://example.com", {
 });
 console.log(result.title) // -> "Example Domain"
 ```
+
+## Recommends
+Since metadata does not change frequently, we recommend caching the retrieved results in [Deno KV](https://deno.com/kv).
