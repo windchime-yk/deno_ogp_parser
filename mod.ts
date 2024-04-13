@@ -50,13 +50,15 @@ export const parsedMeta = async (
     options?.allowOrigins && !options.allowOrigins.includes(new URL(url).origin)
   ) throw new Deno.errors.InvalidData();
 
-  const res = await fetch(url);
-  const bodyReader = await res.body?.getReader().read();
-  const decoder = new TextDecoder();
-  const body = new DOMParser().parseFromString(
-    decoder.decode(bodyReader?.value),
-    "text/html",
-  );
+  const res = await fetch(url, {
+    headers: {
+      "user-agent": "deno_ogp_parser",
+      "accept": "text/html",
+      "accept-charset": "utf-8",
+    },
+  });
+  const bodyText = await res.text();
+  const body = new DOMParser().parseFromString(bodyText, "text/html");
 
   const metaData: MetaData = {
     title: null,
