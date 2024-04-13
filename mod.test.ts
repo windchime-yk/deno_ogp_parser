@@ -172,4 +172,30 @@ Deno.test("parsedMeta", async (t) => {
       }
     });
   });
+
+  await t.step("Exist web site title", async (t) => {
+    await t.step("GitHub", async () => {
+      const meta = await parsedMeta("https://github.com/windchime-yk");
+      assertEquals(meta.title, "windchime-yk (WhyK) · GitHub");
+    });
+    await t.step("Connpass", async () => {
+      const meta = await parsedMeta("https://connpass.com/user/windchime-yk/");
+      assertEquals(
+        meta.title,
+        "WhyKさんのプロフィール（申し込みイベント一覧） - connpass",
+      );
+    });
+    await t.step("Zenn", async () => {
+      const meta = await parsedMeta("https://zenn.dev/windchime_yk");
+      assertEquals(meta.title, "WhyKさんの記事一覧 | Zenn");
+    });
+    await t.step("しずかなインターネット", async () => {
+      const meta = await parsedMeta("https://sizu.me/whyk");
+      assertEquals(meta.title, "whyk｜しずかなインターネット");
+    });
+    await t.step("WhyK Log", async () => {
+      const meta = await parsedMeta("https://blog.whyk.dev");
+      assertEquals(meta.title, "WhyK Log");
+    });
+  });
 });
