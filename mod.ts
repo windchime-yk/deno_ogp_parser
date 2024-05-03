@@ -1,7 +1,8 @@
 import {
   DOMParser,
-  type Element,
-} from "https://deno.land/x/deno_dom@v0.1.38/deno-dom-wasm.ts";
+  type HTMLLinkElement,
+  type HTMLMetaElement,
+} from "linkedom";
 
 type MetaDataType = string | null | undefined;
 
@@ -83,15 +84,15 @@ export const parsedMeta = async (
 
   metaData.title = body?.querySelector("title")?.innerText;
 
-  body?.querySelectorAll("link").forEach((node) => {
-    const element = node as Element;
+  body?.querySelectorAll("link").forEach((node: HTMLLinkElement) => {
+    const element = node;
     if (element.getAttribute("rel") === "shortcut icon") {
       metaData.favicon = element.getAttribute("href");
     }
   });
 
-  body?.querySelectorAll("meta").forEach((node) => {
-    const element = node as Element;
+  body?.querySelectorAll("meta").forEach((node: HTMLMetaElement) => {
+    const element = node;
 
     if (element.getAttribute("name") === "description") {
       metaData.description = element.getAttribute("content");
