@@ -7,6 +7,9 @@ jobs:
   build:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v2
       - name: Bump version and push tag
@@ -23,3 +26,11 @@ jobs:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
           release_name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Publish JSR
+        run: |
+          deno run -A scripts/create-jsr-config.ts ${{ steps.tag_version.outputs.new_tag }}
+          deno publish --config jsr.json

@@ -6,5 +6,8 @@
   },
   "fmt": {
     "exclude": ["README.md", "LICENSE"]
+  },
+  "imports": {
+    "linkedom": "npm:linkedom@^0.16.11"
   }
 }
